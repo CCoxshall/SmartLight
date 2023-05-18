@@ -11,10 +11,6 @@ ntpHelper::ntpHelper(int requestInterval, const char* ntpServer, long gmtOffset,
   _daylightOffset = daylightOffset;
 };
 
-void ntpHelper::Init() {
-
-}
-
 void ntpHelper::getNtpTime(struct tm * info) {
 
   if(!shouldSyncTime() && getLocalTime(info)) {
@@ -39,6 +35,7 @@ void ntpHelper::getNtpTime(struct tm * info) {
   }
 
   //disconnect WiFi as it's no longer needed
+  Serial.println("Disabling WiFi.");
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
 
@@ -50,7 +47,8 @@ bool ntpHelper::shouldSyncTime() {
 };
 
 bool ntpHelper::connect() {
-    if(WiFi.getMode() == WIFI_OFF) {
+  if(WiFi.getMode() == WIFI_OFF) {
+    Serial.println("Enabling WiFi...");
     WiFi.mode(WIFI_STA);
     WiFi.reconnect();
   }

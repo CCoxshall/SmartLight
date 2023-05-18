@@ -68,15 +68,19 @@ void rgbController::setBrightness(unsigned char level) {
   ledcWrite(_channel_Blue, calcB);
 }
 
-void rgbController::setColour(unsigned char r, unsigned char g, unsigned char b) {
+void rgbController::setTargetRGB(unsigned char r, unsigned char g, unsigned char b) {
   _maxRed = r;
   _maxGreen = g;
   _maxBlue = b;
 }
 
-rgb rgbController::getColour() {
+rgb rgbController::getCurrentRGB() {
 
   rgb Rgb;
+  
+  if(!_enabled) {
+    return Rgb;
+  }
 
   Rgb.Red = ledcRead(_channel_Red);
   Rgb.Green = ledcRead(_channel_Green);
